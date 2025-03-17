@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 import '../dependency_injection.dart';
 import 'cubit/palette/palette_cubit.dart';

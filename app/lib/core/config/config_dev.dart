@@ -1,3 +1,3 @@
 class ConfigDev {
-  static const String API_URL = 'https://api.dev.com';
+  static const String API_URL = 'http://10.153.100.8:8000/';
 }

@@ -1,4 +1,9 @@
 import 'package:app/core/lang/language_local_data_source.dart';
+import 'package:app/features/home/data/network/home_api_service.dart';
+import 'package:app/features/home/data/repository/home_repository_impl.dart';
+import 'package:app/features/home/data/sources/remote_data_source.dart';
+import 'package:app/features/home/domain/repository/home_repository.dart';
+import 'package:app/features/home/presentation/bloc/sensor/sensor_bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,9 +35,21 @@ void _initCore() {
   );
 }
 
-void _initData() {}
+void _initData() {
+  sl.registerLazySingleton<HomeRemoteDataSource>(
+    () => HomeRemoteDataSourceImpl(
+      client: sl(),
+    ),
+  );
+}
 
-void _initRepositories() {}
+void _initRepositories() {
+  sl.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(
+      remoteDataSource: sl(),
+    ),
+  );
+}
 
 Future<void> _initExternal() async {
   /////////////////////////
@@ -73,6 +90,14 @@ Future<void> _initExternal() async {
   );
 }
 
-void _initChopper() {}
+void _initChopper() {
+  sl.registerLazySingleton(() => HomeApiService.create());
+}
 
-void _initBlocs() {}
+void _initBlocs() {
+  sl.registerLazySingleton(
+    () => SensorBloc(
+      repository: sl(),
+    ),
+  );
+}
